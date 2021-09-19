@@ -101,7 +101,7 @@ fun timeForHalfWay(
     if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) > v1 * t1 + t2 * v2) {
         return t1 + t2 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2) - v1 * t1 - v2 * t2) / v3
     }
-    return 0.0
+    return t1 + t2 + t3
 }
 
 /**
@@ -231,6 +231,12 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     }
     if ((a == c) && (b == d)) {
         return abs(c - d)
+    }
+    if (a == c && b <= d) {
+        return b - c
+    }
+    if (a == c && b >= d) {
+        return d - c
     }
     return -1
 }
