@@ -3,7 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.max
+import kotlin.math.*
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -68,7 +68,17 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String =
+    if (age in 10..20 || age in 110..120) "$age лет"
+    else {
+        when {
+            age % 10 == 1 -> "$age год"
+            age % 10 in 2..4 -> "$age года"
+            age % 10 in 5..9 -> "$age лет"
+            else -> "$age лет"
+        }
+    }
+
 
 /**
  * Простая (2 балла)
@@ -81,7 +91,18 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) < t1 * v1) {
+        return ((t1 * v1 + t2 * v2 + t3 * v3) / 2) / v1
+    }
+    if ((((t1 * v1 + t2 * v2 + t3 * v3) / 2) > t1 * v1) && (((t1 * v1 + t2 * v2 + t3 * v3) / 2) < v1 * t1 + t2 * v2)) {
+        return t1 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2) - t1 * v1) / v2
+    }
+    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) > v1 * t1 + t2 * v2) {
+        return t1 + t2 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2) - v1 * t1 - v2 * t2) / v3
+    }
+    return 0.0
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +117,18 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    if (kingX != rookX1 && kingX != rookX2 && kingY != rookY1 && kingY != rookY2) {
+        return 0
+    }
+    if ((rookX1 == kingX || rookY1 == kingY) && rookX2 != kingX && rookY2 != kingY) {
+        return 1
+    }
+    if ((rookX2 == kingX || rookY2 == kingY) && rookX1 != kingX && rookY1 != kingY) {
+        return 2
+    }
+    return 3
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +144,18 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    if (rookX != kingX && kingY != rookY && abs(kingX - bishopX) != abs(kingY - bishopY)) {
+        return 0
+    }
+    if ((rookX == kingX || rookY == kingY) && abs(kingX - bishopX) != abs(kingY - bishopY)) {
+        return 1
+    }
+    if ((rookX != kingX && rookY != kingY) && abs(kingX - bishopX) == abs(kingY - bishopY)) {
+        return 2
+    }
+    return 3
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +165,30 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((maxOf(a, b, c)) > minOf(a, b, c) + (a + b + c - maxOf(a, b, c) - minOf(a, b, c))) {
+        return -1
+    }
+    if (((maxOf(a, b, c)).pow(2)) == minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(a, b, c)).pow(2)) {
+        return 1
+    } else if (((maxOf(a, b, c)).pow(2)) < minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(
+            a,
+            b,
+            c
+        )).pow(2)
+    ) {
+        return 0
+    } else if (((maxOf(a, b, c)).pow(2)) > minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(
+            a,
+            b,
+            c
+        )).pow(2)
+    ) {
+        return 2
+    }
+    return -1
+}
+
 
 /**
  * Средняя (3 балла)
@@ -132,4 +198,36 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (a == b && b == c && c == d) {
+        return b - c
+    }
+    if ((b < c) || (d < a)) {
+        return -1
+    }
+    if ((b == c) && (a < d)) {
+        return c - b
+    }
+    if ((d == a) && (c < b)) {
+        return d - a
+    }
+    if ((d == c) && (a < b)) {
+        return d - c
+    }
+    if ((b == a) && (c < d)) {
+        return b - a
+    }
+    if ((a < c) && (d < b)) {
+        return d - c
+    }
+    if ((c < a) && (b < d)) {
+        return b - a
+    }
+    if ((a < c) && (b < d)) {
+        return b - c
+    }
+    if ((c < a) && (d < b)) {
+        return d - a
+    }
+    return -1
+}
