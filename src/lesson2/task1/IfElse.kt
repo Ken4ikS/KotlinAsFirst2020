@@ -92,22 +92,18 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) < t1 * v1) {
-        return ((t1 * v1 + t2 * v2 + t3 * v3) / 2) / v1
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val s = (s1 + s2 + s3) / 2
+    return when {
+        s < t1 * v1 -> s / v1
+        (s > s1) && (s < s1 + s2) -> t1 + (s - s1) / v2
+        s > s1 + s2 -> t1 + t2 + (s - s1 - s2) / v3
+        s == s1 + s2 -> t1 + t2
+        s == s1 -> t1
+        else -> t1 + t2 + t3
     }
-    if ((((t1 * v1 + t2 * v2 + t3 * v3) / 2) > t1 * v1) && (((t1 * v1 + t2 * v2 + t3 * v3) / 2) < v1 * t1 + t2 * v2)) {
-        return t1 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2) - t1 * v1) / v2
-    }
-    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) > v1 * t1 + t2 * v2) {
-        return t1 + t2 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2) - v1 * t1 - v2 * t2) / v3
-    }
-    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) == v1 * t1 + v2 * t2) {
-        return t1 + t2
-    }
-    if (((t1 * v1 + t2 * v2 + t3 * v3) / 2) == t1 * v1) {
-        return t1
-    }
-    return t1 + t2 + t3
 }
 
 /**
@@ -124,16 +120,14 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    if (kingX != rookX1 && kingX != rookX2 && kingY != rookY1 && kingY != rookY2) {
-        return 0
+    val dangerR1 = rookX1 == kingX || rookY1 == kingY
+    val dangerR2 = rookX2 == kingX || rookY2 == kingY
+    return when {
+        !dangerR1 && !dangerR2 -> 0
+        dangerR1 && !dangerR2 -> 1
+        dangerR2 && !dangerR1 -> 2
+        else -> 3
     }
-    if ((rookX1 == kingX || rookY1 == kingY) && rookX2 != kingX && rookY2 != kingY) {
-        return 1
-    }
-    if ((rookX2 == kingX || rookY2 == kingY) && rookX1 != kingX && rookY1 != kingY) {
-        return 2
-    }
-    return 3
 }
 
 /**
@@ -151,16 +145,14 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    if (rookX != kingX && kingY != rookY && abs(kingX - bishopX) != abs(kingY - bishopY)) {
-        return 0
+    val dangerR = rookX == kingX || rookY == kingY
+    val dangerB = abs(kingX - bishopX) == abs(kingY - bishopY)
+    return when {
+        !dangerB && !dangerR -> 0
+        dangerR && !dangerB -> 1
+        !dangerR && dangerB -> 2
+        else -> 3
     }
-    if ((rookX == kingX || rookY == kingY) && abs(kingX - bishopX) != abs(kingY - bishopY)) {
-        return 1
-    }
-    if ((rookX != kingX && rookY != kingY) && abs(kingX - bishopX) == abs(kingY - bishopY)) {
-        return 2
-    }
-    return 3
 }
 
 /**
@@ -172,27 +164,17 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((maxOf(a, b, c)) > minOf(a, b, c) + (a + b + c - maxOf(a, b, c) - minOf(a, b, c))) {
-        return -1
+    val maxNum = maxOf(a, b, c)
+    val minNum = minOf(a, b, c)
+    val averageNum = a + b + c - maxNum - minNum
+    val sumSquaresLeg = minNum.pow(2) + averageNum.pow(2)
+    return when {
+        maxNum > minNum + averageNum -> -1
+        maxNum.pow(2) == sumSquaresLeg -> 1
+        maxNum.pow(2) < sumSquaresLeg -> 0
+        maxNum.pow(2) > sumSquaresLeg -> 2
+        else -> -1
     }
-    if (((maxOf(a, b, c)).pow(2)) == minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(a, b, c)).pow(2)) {
-        return 1
-    } else if (((maxOf(a, b, c)).pow(2)) < minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(
-            a,
-            b,
-            c
-        )).pow(2)
-    ) {
-        return 0
-    } else if (((maxOf(a, b, c)).pow(2)) > minOf(a, b, c).pow(2) + (a + b + c - maxOf(a, b, c) - minOf(
-            a,
-            b,
-            c
-        )).pow(2)
-    ) {
-        return 2
-    }
-    return -1
 }
 
 
@@ -205,50 +187,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a == b && b == c && c == d) {
-        return b - c
+    return when {
+        (d < a) || (c > b) -> -1
+        (c >= a && d <= b) || a >= c || b <= d -> min(b, d) - max(a, c)
+        else -> -1
     }
-    if ((b < c) || (d < a)) {
-        return -1
-    }
-    if ((b == c) && (a < d)) {
-        return c - b
-    }
-    if ((d == a) && (c < b)) {
-        return d - a
-    }
-    if ((d == c) && (a < b)) {
-        return d - c
-    }
-    if ((b == a) && (c < d)) {
-        return b - a
-    }
-    if ((a < c) && (d < b)) {
-        return d - c
-    }
-    if ((c <= a) && (b <= d)) {
-        return b - a
-    }
-    if ((a < c) && (b < d)) {
-        return b - c
-    }
-    if ((c <= a) && (d <= b)) {
-        return d - a
-    }
-    if ((a == c) && (b == d)) {
-        return abs(c - d)
-    }
-    if (a == c && b <= d) {
-        return b - c
-    }
-    if (a == c && b >= d) {
-        return d - c
-    }
-    if (a != b && b == c && c == d) {
-        return c - b
-    }
-    if (c !=d && a == b && b == c) {
-        return c - b
-    }
-    return -1
 }
