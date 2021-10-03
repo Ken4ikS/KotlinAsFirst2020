@@ -81,7 +81,7 @@ fun digitNumber(n: Int): Int {
     do {
         count++
         number /= 10
-    } while (number > 0)
+    } while (number != 0)
     return count
 }
 
@@ -92,10 +92,22 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    val value: Int = if (n > 2) {
+   /* val value: Int = if (n > 2) {
         fib(n - 1) + fib(n - 2)
     } else 1
     return value
+    */
+    var f1 = 1
+    var f2 = 1
+    var res = 0
+    if (n > 2) {
+        for (i in 3..n) {
+            res = f1 + f2
+            f1 = f2
+            f2 = res
+        }
+    } else res = 1
+    return res
 }
 
 /**
@@ -156,10 +168,14 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    for (i in 1..m * n) {
-        if (i % m == 0 && i % n == 0) return i
+    // Находим НОД и с помощью его НОК
+    var a = m
+    var b = n
+    while (a > 0 && b > 0) {
+        if (b > a) b %= a
+        else a %= b
     }
-    return 0
+    return ((m * n) / (a + b))
 }
 
 /**
