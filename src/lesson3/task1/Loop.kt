@@ -92,8 +92,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var value = 0
-    value = if (n > 2) {
+    val value: Int = if (n > 2) {
         fib(n - 1) + fib(n - 2)
     } else 1
     return value
@@ -257,19 +256,16 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var digitNum = 0
     var num = 0
-    var resNum = 0
     while (digitNum < n) {
         num = sqr(i)
         i++
         digitNum += digitNumber(num)
     }
-    digitNum -= digitNumber(num)
     while (digitNum != n) {
-        resNum = num / (10.0.pow(digitNumber(num)) / 10).toInt()
-        if (num > 9) num %= (10.0.pow(digitNumber(num)) / 10).toInt()
-        digitNum++
+        num /= 10
+        digitNum--
     }
-    return resNum
+    return num % 10
 }
 
 /**
@@ -284,7 +280,6 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var digitNum = 0
     var num = 0
-    var resNum = 0
     var f1 = 1
     var f2 = 1
     var replace = 0
@@ -297,11 +292,9 @@ fun fibSequenceDigit(n: Int): Int {
         } else num = f1
         digitNum += digitNumber(num)
     }
-    digitNum -= digitNumber(num)
     while (digitNum != n) {
-        resNum = num / (10.0.pow(digitNumber(num)) / 10).toInt()
-        if (num > 9) num %= (10.0.pow(digitNumber(num)) / 10).toInt()
-        digitNum++
+        num /= 10
+        digitNum--
     }
-    return resNum
+    return num % 10
 }
