@@ -92,21 +92,14 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-   /* val value: Int = if (n > 2) {
-        fib(n - 1) + fib(n - 2)
-    } else 1
-    return value
-    */
     var f1 = 1
     var f2 = 1
-    var res = 0
-    if (n > 2) {
-        for (i in 3..n) {
-            res = f1 + f2
-            f1 = f2
-            f2 = res
-        }
-    } else res = 1
+    var res = 1
+    for (i in 3..n) {
+        res = f1 + f2
+        f1 = f2
+        f2 = res
+    }
     return res
 }
 
@@ -116,10 +109,10 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..n / 2) {
         if (n % i == 0) return i
     }
-    return 0
+    return n
 }
 
 /**
@@ -127,12 +120,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (i in n - 1 downTo 1) {
-        if (n % i == 0) return i
-    }
-    return 0
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -193,8 +181,17 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         if (a > b) a -= b
         else b -= a
     }
-    if (b == 1) return true
-    return false
+    return b < 2
+
+    /* var a = m
+    var b = n
+    while (a > 0 && b > 0) {
+        if (b > a) b %= a
+        else a %= b
+        if (a + b == 1) return true
+    }
+
+    return false */
 }
 
 /**
@@ -209,11 +206,11 @@ fun revert(n: Int): Int {
     var pos = 1
     var newN = 0.0
     while (number > 0) {
-        newN += (number % 10) * ((10.0.pow(digitNumber(n)))) / (10.0.pow(pos))
+        newN += number % 10 * 10.0.pow(digitNumber(n)) / 10.0.pow(pos)
         pos++
         number /= 10
     }
-return newN.toInt()
+    return newN.toInt()
 }
 
 /**
