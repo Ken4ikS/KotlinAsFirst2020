@@ -3,6 +3,9 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
+import lesson3.task1.isPrime
+import lesson3.task1.minDivisor
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -120,14 +123,27 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var res = 0.0
+    for (element in v) {
+        res += sqr(element)
+    }
+    return sqrt(res)
+}
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var sum = 0.0
+    for (i in list.indices) {
+        sum += list[i]
+    }
+    if (sum == 0.0) return 0.0
+    return sum / list.size
+}
 
 /**
  * Средняя (3 балла)
@@ -137,7 +153,17 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    var average = 0.0
+    for (i in 0 until list.size) {
+        average += list[i]
+    }
+    average /= list.size
+    for (i in 0 until list.size) {
+        list[i] -= average
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -146,7 +172,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var res = 0
+    for (i in a.indices) {
+        res += a[i] * b[i]
+    }
+    return res
+}
 
 /**
  * Средняя (3 балла)
@@ -186,7 +218,23 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var s = ""
+    var num = n
+    var last = 0
+    if (isPrime(num)) return num.toString()
+    while (num > 9) {
+        if (minDivisor(num) >= last && minDivisor(num) != 1) s += "*" + minDivisor(num).toString()
+        else if (minDivisor(num) != 1) s = minDivisor(num).toString() + "*" + s
+        last = minDivisor(num)
+        num /= minDivisor(num)
+    }
+    if (s.first() == '*') s = s.substring(1, s.length)
+    if (s.last() == '*') s = s.substring(0, s.length)
+    if (num >= last && num != 1) return "$s*$num"
+    else if (num != 1) return "$num*$s"
+    return "$s"
+}
 
 /**
  * Средняя (3 балла)
@@ -241,7 +289,19 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var res = ""
+    var num = n
+    val list = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val equalList = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    for (i in 12 downTo 0) {
+        while (num >= equalList[i]) {
+            res += list[i]
+            num -= equalList[i]
+        }
+    }
+    return res
+}
 
 /**
  * Очень сложная (7 баллов)
@@ -251,3 +311,16 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+/* val listPrime =
+      listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+  val listDoz =
+      listOf<String>("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+  val listHungred =
+      listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+  val listExp =
+      listOf<String>("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+  val listEnd = listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+  var res = ""
+  if (n > 99) res += listHungred[n / 100 - 1]
+  return 0
+  */
