@@ -4,8 +4,10 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.digitNumber
 import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -230,7 +232,7 @@ fun factorizeToString(n: Int): String {
         num /= minDivisor(num)
     }
     if (s.first() == '*') s = s.substring(1, s.length)
-    if (s.last() == '*') s = s.substring(0, s.length)
+    if (s.last() == '*') s = s.substring(0, s.length - 1)
     if (num >= last && num != 1) return "$s*$num"
     else if (num != 1) return "$num*$s"
     return "$s"
@@ -310,17 +312,59 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
-/* val listPrime =
-      listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-  val listDoz =
-      listOf<String>("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-  val listHungred =
-      listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-  val listExp =
-      listOf<String>("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-  val listEnd = listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-  var res = ""
-  if (n > 99) res += listHungred[n / 100 - 1]
-  return 0
-  */
+fun russian(n: Int): String {
+    val listPrime =
+        listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listDoz =
+        listOf<String>("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listHungred =
+        listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listExp =
+        listOf<String>("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listEnd =
+        listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val res = mutableListOf<String>()
+    val resHun = mutableListOf<String>()
+    var fl = 0
+    fun hun(n: Int): List<String> {
+        if (n in 11..19) resHun.add(listExp[n % 10 - 1])
+        else {
+            if (n % 1000 / 100 != 0) resHun.add(listHungred[n % 1000 / 100 - 1])
+            if (n % 100 / 10 != 0) {
+                if (n % 100 in 11..19) {
+                    resHun.add(listExp[n % 10 - 1])
+                    fl = 1
+                }
+            }
+            if (n % 100 / 10 != 0 && fl == 0) resHun.add(listDoz[n % 100 / 10 - 1])
+            if (n % 10 != 0 && fl == 0) resHun.add(listPrime[n % 10 - 1])
+            else if (n % 10 != 0) resHun.add(listPrime[n % 10 - 1])
+        }
+        return resHun
+    }
+
+    fl = 0
+
+    fun thous(n: Int): List<String> {
+        if (n / 100000 != 0) res.add(listHungred[n / 100000 - 1])
+        if (n / 10000 % 10 != 0) if (n / 1000 % 100 in 11..19) {
+            res.add(listExp[n / 1000 % 10 - 1])
+            fl = 1
+        }
+        if (fl == 0 && n / 10000 % 10 != 0) res.add(listDoz[n / 10000 % 10 - 1])
+        if (fl == 0 && n / 1000 % 10 != 0) res.add(listEnd[n / 1000 % 10 - 1])
+        when (n / 1000 % 100) {
+            0, in 5..20 -> res.add("тысяч")
+            1 -> res.add("тысяча")
+            in 2..4 -> res.add("тысячи")
+            else -> when (n / 1000 % 10) {
+                0, in 5..9 -> res.add("тысяч")
+                1 -> res.add("тысяча")
+                in 2..4 -> res.add("тысячи")
+            }
+        }
+        return res
+    }
+    if (n < 1000) return hun(n).joinToString(separator = " ")
+    return (thous(n) + hun(n)).joinToString(separator = " ")
+}
