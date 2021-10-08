@@ -326,24 +326,17 @@ fun russian(n: Int): String {
     val res = mutableListOf<String>()
     val resHun = mutableListOf<String>()
     var fl = 0
+    var fl2 = 0
     fun hun(n: Int): List<String> {
-        if (n in 11..19) resHun.add(listExp[n % 10 - 1])
-        else {
-            if (n % 1000 / 100 != 0) resHun.add(listHungred[n % 1000 / 100 - 1])
-            if (n % 100 / 10 != 0) {
-                if (n % 100 in 11..19) {
-                    resHun.add(listExp[n % 10 - 1])
-                    fl = 1
-                }
-            }
-            if (n % 100 / 10 != 0 && fl == 0) resHun.add(listDoz[n % 100 / 10 - 1])
-            if (n % 10 != 0 && fl == 0) resHun.add(listPrime[n % 10 - 1])
-            else if (n % 10 != 0) resHun.add(listPrime[n % 10 - 1])
+        if (n % 1000 / 100 != 0) resHun.add(listHungred[n % 1000 / 100 - 1])
+        if (n % 100 / 10 != 0) if (n % 100 in 11..19) {
+            resHun.add(listExp[n % 100 - 11])
+            fl2 = 1
         }
+        if (fl2 == 0 && n % 100 / 10 != 0) resHun.add(listDoz[n % 100 / 10 - 1])
+        if (fl2 == 0 && n % 10 != 0) resHun.add(listPrime[n % 10 - 1])
         return resHun
     }
-
-    fl = 0
 
     fun thous(n: Int): List<String> {
         if (n / 100000 != 0) res.add(listHungred[n / 100000 - 1])
