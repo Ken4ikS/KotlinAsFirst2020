@@ -156,11 +156,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var average = 0.0
-    for (i in 0 until list.size) {
-        average += list[i]
-    }
-    average /= list.size
+    val average = mean(list)
     for (i in 0 until list.size) {
         list[i] -= average
     }
@@ -221,21 +217,14 @@ fun factorize(n: Int): List<Int> = TODO()
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String {
-    var s = ""
+    val s = mutableListOf<String>()
     var num = n
-    var last = 0
-    if (isPrime(num)) return num.toString()
-    while (num > 9) {
-        if (minDivisor(num) >= last && minDivisor(num) != 1) s += "*" + minDivisor(num).toString()
-        else if (minDivisor(num) != 1) s = minDivisor(num).toString() + "*" + s
-        last = minDivisor(num)
-        num /= minDivisor(num)
+    while (num > 1) {
+        val minDiv = minDivisor(num)
+        s.add("$minDiv")
+        num /= minDiv
     }
-    if (s.first() == '*') s = s.substring(1, s.length)
-    if (s.last() == '*') s = s.substring(0, s.length - 1)
-    if (num >= last && num != 1) return "$s*$num"
-    else if (num != 1) return "$num*$s"
-    return "$s"
+    return s.joinToString(separator = "*")
 }
 
 /**
@@ -325,32 +314,53 @@ fun russian(n: Int): String {
         listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val res = mutableListOf<String>()
     val resHun = mutableListOf<String>()
-    var fl = 0
-    var fl2 = 0
+
+
     fun hun(n: Int): List<String> {
-        if (n % 1000 / 100 != 0) resHun.add(listHungred[n % 1000 / 100 - 1])
-        if (n % 100 / 10 != 0) if (n % 100 in 11..19) {
-            resHun.add(listExp[n % 100 - 11])
-            fl2 = 1
+        val highBit = n % 1000 / 100
+        val secBit = n % 100 / 10
+        val lowBits = n % 100
+        val lowBit = n % 10
+
+
+//
+        var fl = 0
+        if (highBit != 0) resHun.add(listHungred[highBit - 1])
+        if (secBit != 0) if (lowBits in 11..19) {
+            resHun.add(listExp[lowBits - 11])
+            fl = 1
         }
-        if (fl2 == 0 && n % 100 / 10 != 0) resHun.add(listDoz[n % 100 / 10 - 1])
-        if (fl2 == 0 && n % 10 != 0) resHun.add(listPrime[n % 10 - 1])
+        if (fl == 0 && secBit != 0) resHun.add(listDoz[secBit - 1])
+//
+
+
+        if (fl == 0 && lowBit != 0) resHun.add(listPrime[lowBit - 1])
         return resHun
     }
 
     fun thous(n: Int): List<String> {
-        if (n / 100000 != 0) res.add(listHungred[n / 100000 - 1])
-        if (n / 10000 % 10 != 0) if (n / 1000 % 100 in 11..19) {
-            res.add(listExp[n / 1000 % 10 - 1])
+
+        val highBit = n / 100000
+        val secBit = n / 10000 % 10
+        val lowBits = n / 1000 % 100
+        val lowBit = n / 1000 % 10
+
+//
+        var fl = 0
+        if (highBit != 0) res.add(listHungred[highBit - 1])
+        if (secBit != 0) if (lowBits in 11..19) {
+            res.add(listExp[lowBit - 1])
             fl = 1
         }
-        if (fl == 0 && n / 10000 % 10 != 0) res.add(listDoz[n / 10000 % 10 - 1])
-        if (fl == 0 && n / 1000 % 10 != 0) res.add(listEnd[n / 1000 % 10 - 1])
-        when (n / 1000 % 100) {
+        if (fl == 0 && secBit != 0) res.add(listDoz[secBit - 1])
+//
+
+        if (fl == 0 && lowBit != 0) res.add(listEnd[lowBit - 1])
+        when (lowBits) {
             0, in 5..20 -> res.add("тысяч")
             1 -> res.add("тысяча")
             in 2..4 -> res.add("тысячи")
-            else -> when (n / 1000 % 10) {
+            else -> when (lowBit) {
                 0, in 5..9 -> res.add("тысяч")
                 1 -> res.add("тысяча")
                 in 2..4 -> res.add("тысячи")
