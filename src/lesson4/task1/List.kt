@@ -312,50 +312,35 @@ fun russian(n: Int): String {
         listOf<String>("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listEnd =
         listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val res = mutableListOf<String>()
-    val resHun = mutableListOf<String>()
 
+    fun similar(highBit: Int, secBit: Int, lowBits: Int, lowBit: Int, res: MutableList<String>): List<String> {
+        if (highBit != 0) res.add(listHungred[highBit - 1])
+        if (secBit != 0) if (lowBits in 11..19) {
+            res.add(listExp[lowBits - 11])
+        }
+        if (lowBits !in 11..19 && secBit != 0) res.add(listDoz[secBit - 1])
+        return res
+    }
 
     fun hun(n: Int): List<String> {
+        val res = mutableListOf<String>()
         val highBit = n % 1000 / 100
         val secBit = n % 100 / 10
         val lowBits = n % 100
         val lowBit = n % 10
-
-
-//
-        var fl = 0
-        if (highBit != 0) resHun.add(listHungred[highBit - 1])
-        if (secBit != 0) if (lowBits in 11..19) {
-            resHun.add(listExp[lowBits - 11])
-            fl = 1
-        }
-        if (fl == 0 && secBit != 0) resHun.add(listDoz[secBit - 1])
-//
-
-
-        if (fl == 0 && lowBit != 0) resHun.add(listPrime[lowBit - 1])
-        return resHun
+        similar(highBit, secBit, lowBits, lowBit, res)
+        if (lowBits !in 11..19 && lowBit != 0) res.add(listPrime[lowBit - 1])
+        return res
     }
 
     fun thous(n: Int): List<String> {
-
+        val res = mutableListOf<String>()
         val highBit = n / 100000
         val secBit = n / 10000 % 10
         val lowBits = n / 1000 % 100
         val lowBit = n / 1000 % 10
-
-//
-        var fl = 0
-        if (highBit != 0) res.add(listHungred[highBit - 1])
-        if (secBit != 0) if (lowBits in 11..19) {
-            res.add(listExp[lowBit - 1])
-            fl = 1
-        }
-        if (fl == 0 && secBit != 0) res.add(listDoz[secBit - 1])
-//
-
-        if (fl == 0 && lowBit != 0) res.add(listEnd[lowBit - 1])
+        similar(highBit, secBit, lowBits, lowBit, res)
+        if (lowBits !in 11..19 && lowBit != 0) res.add(listEnd[lowBit - 1])
         when (lowBits) {
             0, in 5..20 -> res.add("тысяч")
             1 -> res.add("тысяча")
