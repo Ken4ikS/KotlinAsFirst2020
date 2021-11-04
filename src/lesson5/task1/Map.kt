@@ -177,13 +177,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val mapC = subtractOf(mapA.toMutableMap(), mapB.toMutableMap())
-    for ((key, value) in mapB)
-        if (mapC[key].isNullOrEmpty()) mapC[key] = value
-        else mapC[key] += ", " + mapB[key]
-    return mapC
-}
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
 
 /**
  * Средняя (4 балла)
