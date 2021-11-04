@@ -117,9 +117,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((key, value) in a) {
-        if (key in b && b[key] == value) return true
+        if (key !in b || b[key] != value) return false
     }
-    return false
+    return true
 }
 
 /**
@@ -225,9 +225,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val chars2 = mutableSetOf<Char>()
-    for (i in chars.indices) chars2.add(chars[i])
+    for (i in chars.indices) chars2.add(chars[i].lowercaseChar())
     for (letter in word) {
-        if (letter.lowercaseChar() !in chars) return false
+        if (letter.lowercaseChar() !in chars2) return false
     }
     return true
 }
