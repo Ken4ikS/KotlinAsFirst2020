@@ -244,7 +244,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     for (elem in list)
-        if (map.containsKey(elem)) map[elem] = map.getValue(elem) + 1
+        if (map.containsKey(elem)) map[elem] = map[elem]!!.toInt() + 1
         else map[elem] = 1
     val removeKey = mutableListOf<String>()
     for ((key, value) in map)
@@ -340,19 +340,11 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     }
     return Pair(-1, -1)
    */
-    val map = mutableMapOf<Int, Int>()
-    val assistMap = mutableMapOf<Int, Int>()
+    // Поиск дополнений к цифре из списка, кроме него самого, до заданной суммы
     if (list.isNotEmpty()) {
-        val sortedList = list.toMutableList()
-        sortedList.sort()
-        for (i in 0 until sortedList.size)
-            if (map[sortedList[i]] == null) map[sortedList[i]] = number - sortedList[i]
-            else assistMap[sortedList[i]] = i
-        for ((key, value) in map) {
-            if (key in assistMap && value in list) return Pair((minOf(assistMap[key]!!, list.indexOf(key))), maxOf(assistMap[key]!!, list.indexOf(key)))
-            if (value in list && list.indexOf(key) != list.indexOf(value))
-                return Pair(minOf(list.indexOf(key), list.indexOf(value)), maxOf(list.indexOf(value), list.indexOf(key)))
-        }
+        for (i in 0 until list.size)
+            if (number - list[i] in list && list.indexOf(number - list[i]) != i)
+                return Pair(minOf(list.indexOf(number - list[i]), i), maxOf(list.indexOf(number - list[i]), i))
     }
     return Pair(-1, -1)
 }
