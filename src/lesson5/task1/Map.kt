@@ -349,7 +349,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
             if (map[sortedList[i]] == null) map[sortedList[i]] = number - sortedList[i]
             else assistMap[sortedList[i]] = i
         for ((key, value) in map) {
-            if (key in assistMap && assistMap[key] != null) return Pair((minOf(assistMap[key]!!, list.indexOf(key))), maxOf(assistMap[key]!!, list.indexOf(key)))
+            if (key in assistMap && value in list) return Pair((minOf(assistMap[key]!!, list.indexOf(key))), maxOf(assistMap[key]!!, list.indexOf(key)))
             if (value in list && list.indexOf(key) != list.indexOf(value))
                 return Pair(minOf(list.indexOf(key), list.indexOf(value)), maxOf(list.indexOf(value), list.indexOf(key)))
         }
