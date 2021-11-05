@@ -341,16 +341,18 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     return Pair(-1, -1)
    */
     val map = mutableMapOf<Int, Int>()
+    val assistMap = mutableMapOf<Int, Int>()
     if (list.isNotEmpty()) {
         val sortedList = list.toMutableList()
         sortedList.sort()
-        for (elem in sortedList)
-            if (!map.containsKey(elem)) map[elem] = number - elem
-            else map[elem] = -1
-        for ((key, value) in map)
+        for (i in 0 until sortedList.size)
+            if (map[sortedList[i]] == null) map[sortedList[i]] = number - sortedList[i]
+            else assistMap[sortedList[i]] = i
+        for ((key, value) in map) {
+            if (key in assistMap && assistMap[key] != null) return Pair((minOf(assistMap[key]!!, list.indexOf(key))), maxOf(assistMap[key]!!, list.indexOf(key)))
             if (value in list && list.indexOf(key) != list.indexOf(value))
-                return if (list.indexOf(key) < list.indexOf(value)) Pair(list.indexOf(key), list.indexOf(value))
-                else Pair(list.indexOf(value), list.indexOf(key))
+                return Pair(minOf(list.indexOf(key), list.indexOf(value)), maxOf(list.indexOf(value), list.indexOf(key)))
+        }
     }
     return Pair(-1, -1)
 }
