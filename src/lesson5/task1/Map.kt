@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.mapToArray
 import java.util.Collections.binarySearch
 
 // Урок 5: ассоциативные массивы и множества
@@ -322,12 +323,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    /*  if (list.isNotEmpty()) {
+    if (list.isNotEmpty()) {
         val sortedList = list.toMutableList()
         sortedList.sort()
         var first = sortedList.first()
         var last = sortedList.last()
-        while (first < last) {
+        while (first <= last) {
             val sum = first + last
             if (sum == number) {
                 return if (list.indexOf(first) < list.indexOf(last)) Pair(list.indexOf(first), list.indexOf(last))
@@ -339,14 +340,15 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         }
     }
     return Pair(-1, -1)
-   */
+
     // Поиск дополнений к цифре из списка, кроме него самого, до заданной суммы
-    if (list.isNotEmpty()) {
+    /* if (list.isNotEmpty()) {
         for (i in 0 until list.size)
             if (number - list[i] in list && list.indexOf(number - list[i]) != i)
                 return Pair(minOf(list.indexOf(number - list[i]), i), maxOf(list.indexOf(number - list[i]), i))
     }
     return Pair(-1, -1)
+    */
 }
 
 /**
@@ -370,4 +372,35 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    //получить массив, содержащий удельную стоимость, вес и название, отсортированный по удельной стоимости
+    //записать ключи в список и отсортировать по убыванию, а потом в новый ассоциативный массив добавлять ключи и их значения из прошлого массива)
+    fun sort(map: Map<String, Pair<Int, Int>>): Map<Int, Pair<Int, String>> {
+        val resMap = mutableMapOf<Int, Pair<Int, String>>()
+        val outputMap = mutableMapOf<Int, Pair<Int, String>>()
+        for ((key, value) in map)
+            resMap.put(value.second / value.first, Pair(value.first, key))
+        val keys = resMap.keys.reversed()
+        for (key in keys) {
+            outputMap.put(key, resMap[key]!!)
+        }
+        return outputMap
+    }
+
+    //добавлять товары с максимальной удельной стоимостью, пока вес не превысит максимальный, в таком случае
+    // добавить максимальный влезающий товар с наибольшей удельной стоимость при прочих равных,
+    // если такой имеется
+    fun path(map: Map<Int, Pair<Int, String>>, capacity: Int): Set<String> {
+        var mas = 0
+        val set = mutableSetOf<String>()
+        for ((_, value) in map) {
+            if (mas + value.first <= capacity) {
+                mas += value.first
+                set.add(value.second)
+            }
+        }
+        return set
+    }
+    return path(sort(treasures), capacity)
+}
