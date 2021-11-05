@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.util.Collections.binarySearch
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -319,7 +321,25 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.isNotEmpty()) {
+        val sortedList = list.toMutableList()
+        sortedList.sort()
+        var first = sortedList.first()
+        var last = sortedList.last()
+        while (first < last) {
+            val sum = first + last
+            if (sum == number) {
+                return if (list.indexOf(first) < list.indexOf(last)) Pair(list.indexOf(first), list.indexOf(last))
+                else Pair(list.indexOf(last), list.indexOf(first))
+            } else {
+                if (sum < number) first = sortedList[sortedList.indexOf(first) + 1]
+                else last = sortedList[sortedList.indexOf(last) - 1]
+            }
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
