@@ -156,11 +156,10 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMa
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val res = mutableSetOf<String>()
-    for (name in a)
-        for (name2 in b)
-            if (name == name2) res.add(name)
-    return res.toList()
+    val res = mutableListOf<String>()
+    for (name in a.toSet())
+        if (name in b.toSet()) res.add(name)
+    return res
 }
 
 /**
@@ -223,7 +222,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val chars2 = mutableSetOf<Char>()
-    for (i in chars.indices) chars2.add(chars[i].lowercaseChar())
+    for (elem in chars) chars2.add(elem.lowercaseChar())
     for (letter in word) {
         if (letter.lowercaseChar() !in chars2) return false
     }
@@ -244,15 +243,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-    for (elem in list)
-        if (map.containsKey(elem)) map[elem] = map[elem]!!.toInt() + 1
-        else map[elem] = 1
-    val removeKey = mutableListOf<String>()
-    for ((key, value) in map)
-        if (value == 1) removeKey.add(key)
-    for (key in removeKey)
-        map.remove(key)
-    return map
+    for (elem in list) map[elem] = ((map[elem] ?: 0) + 1)
+    return map.filter { (_, value) -> value > 1 }
 }
 
 /**
@@ -323,32 +315,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    /*   if (list.isNotEmpty()) {
-        val sortedList = list.toMutableList()
-        sortedList.sort()
-        var first = sortedList.first()
-        var last = sortedList.last()
-        while (first <= last) {
-            val sum = first + last
-            if (sum == number) {
-                return if (list.indexOf(first) < list.indexOf(last)) Pair(list.indexOf(first), list.indexOf(last))
-                else Pair(list.indexOf(last), list.indexOf(first))
-            } else {
-                if (sum < number) first = sortedList[sortedList.indexOf(first) + 1]
-                else last = sortedList[sortedList.indexOf(last) - 1]
-            }
-        }
-    }
-    return Pair(-1, -1)
-*/
     // Поиск дополнения к цифре из списка, кроме него самого, до заданной суммы
-    if (list.isNotEmpty()) {
-        for (i in 0 until list.size)
-            if (number - list[i] in list && list.indexOf(number - list[i]) != i)
-                return Pair(minOf(list.indexOf(number - list[i]), i), maxOf(list.indexOf(number - list[i]), i))
+    for (i in list.indices) {
+        val addition = number - list[i]
+        val index = list.indexOf(addition)
+        if (addition in list.toSet() && index != i)
+            return Pair(minOf(index, i), maxOf(index, i))
     }
     return Pair(-1, -1)
-
 }
 
 /**
@@ -374,21 +348,16 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    //получить массив, содержащий удельную стоимость, вес и название, отсортированный по удельной стоимости
-    //записать ключи в список и отсортировать по убыванию, а потом в новый ассоциативный массив добавлять ключи и их значения из прошлого массива)
+    //создается ассоциативный массив, содержащий название, удельную стоимость и вес, отсортированный по удельной стоимости(убыванию)
     fun sort(map: Map<String, Pair<Int, Int>>): Map<String, Pair<Int, Int>> {
         val resMap = mutableMapOf<String, Pair<Int, Int>>()
         for ((key, value) in map)
             resMap.put(key, Pair(value.second / value.first, value.first))
-        return resMap.toList().sortedBy { (_, value) -> value.first }.toMap()
-        /*   for ((key, values) in unitCost) {
-            outputMap.put(map, Pair(key, values)!!)
-        }
-      */
+        return resMap.toList().sortedBy { (_, value) -> value.first }.asReversed().toMap()
     }
 
-    //добавлять товары с максимальной удельной стоимостью, пока вес не превысит максимальный, в таком случае
-    // добавить максимальный влезающий предмет с наибольшей удельной стоимость при прочих равных,
+    //добавляются товары с максимальной удельной стоимостью, пока вес не превысит максимальный, в таком случае
+    // добавляется максимальный влезающий предмет с наибольшей удельной стоимость при прочих равных,
     // если такой имеется
     fun path(map: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
         var mas = 0
