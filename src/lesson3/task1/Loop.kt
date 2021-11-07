@@ -57,13 +57,7 @@ fun isPerfect(n: Int): Boolean {
  *
  * Найти число вхождений цифры m в число n
  */
-fun digitCountInNumber(n: Int, m: Int): Int =
-    when {
-        n == m -> 1
-        n < 10 -> 0
-        else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
-    }
-
+fun digitCountInNumber(n: Int, m: Int): Int = TODO()
 /**
  * Простая (2 балла)
  *
@@ -72,15 +66,25 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    var K = n
+    var num = 1
+    while(K / 10 != 0) {
+        K /= 10
+        num += 1
+    }
+    return num
+}
 /**
  * Простая (2 балла)
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+    if (n <= 2) 1
+    else fib(n - 2) + fib(n - 1)
+
 
 /**
  * Простая (2 балла)
@@ -88,6 +92,7 @@ fun fib(n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int = TODO()
+
 
 /**
  * Простая (2 балла)
@@ -121,7 +126,6 @@ fun collatzSteps(x: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int = TODO()
-
 /**
  * Средняя (3 балла)
  *
@@ -192,7 +196,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int) : Int {
+    var chisl =0
+    var col = 0
+    var sqr = 0
+    while(col < n){
+        chisl ++
+        sqr = chisl * chisl
+        col += digitNumber(sqr)
+    }
+    while(col > n){
+        sqr /= 10
+        col -= 1
+    }
+    return sqr % 10
+}
+
+
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +223,21 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var chisl =0
+    var col = 0
+    var sqr = 0
+    while(col < n){
+        chisl ++
+        sqr = fib(chisl)
+        col += digitNumber(sqr)
+    }
+    while(col > n){
+        sqr /= 10
+        col -= 1
+    }
+    return sqr % 10
+}
+
+
+
