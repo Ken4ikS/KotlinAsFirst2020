@@ -347,29 +347,4 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    //создается ассоциативный массив, содержащий название, удельную стоимость и вес, отсортированный по удельной стоимости(убыванию)
-    fun sort(map: Map<String, Pair<Int, Int>>): Map<String, Pair<Int, Int>> {
-        val resMap = mutableMapOf<String, Pair<Int, Int>>()
-        for ((key, value) in map)
-            resMap.put(key, Pair(value.second / value.first, value.first))
-        return resMap.toList().sortedBy { (_, value) -> value.first }.asReversed().toMap()
-    }
-
-    //добавляются товары с максимальной удельной стоимостью, пока вес не превысит максимальный, в таком случае
-    // добавляется максимальный влезающий предмет с наибольшей удельной стоимость при прочих равных,
-    // если такой имеется
-    fun path(map: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-        var mas = 0
-        val set = mutableSetOf<String>()
-        for ((key, value) in map) {
-            if (mas + value.second <= capacity) {
-                mas += value.second
-                set.add(key)
-            }
-        }
-        return set
-    }
-
-    return path(sort(treasures), capacity)
-}
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
