@@ -156,9 +156,10 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMa
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val bSet = b.toSet()
     val res = mutableListOf<String>()
     for (name in a.toSet())
-        if (name in b.toSet()) res.add(name)
+        if (name in bSet) res.add(name)
     return res
 }
 
@@ -318,7 +319,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     // Поиск дополнения к цифре из списка, кроме него самого, до заданной суммы
     for (i in list.indices) {
         val addition = number - list[i]
-        val index = list.indexOf(addition)
+        val index = list.binarySearch(addition)
         if (addition in list.toSet() && index != i)
             return Pair(minOf(index, i), maxOf(index, i))
     }
