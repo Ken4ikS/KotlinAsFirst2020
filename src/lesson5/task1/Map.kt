@@ -317,11 +317,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     // Поиск дополнения к цифре из списка, кроме него самого, до заданной суммы
+    val map = mutableMapOf<Int, Int>()
     for (i in list.indices) {
         val addition = number - list[i]
-        val index = list.binarySearch(addition)
-        if (addition in list.toSet() && index != i && index >= 0)
-            return Pair(minOf(index, i), maxOf(index, i))
+        if (addition in map.keys)
+            return Pair(minOf(map[addition]!!, i), maxOf(map[addition]!!, i))
+        else map.put(list[i], i)
     }
     return Pair(-1, -1)
 }
