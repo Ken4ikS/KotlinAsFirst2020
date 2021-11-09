@@ -319,7 +319,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     // Поиск дополнения к цифре из списка, кроме него самого, до заданной суммы
     for (i in list.indices) {
         val addition = number - list[i]
-        val index = list.binarySearch(addition)
+        val index = list.size - i
         if (addition in list.toSet() && index != i)
             return Pair(minOf(index, i), maxOf(index, i))
     }
