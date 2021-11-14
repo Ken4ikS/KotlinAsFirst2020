@@ -93,6 +93,8 @@ fun dateStrToDigit(str: String): String {
         String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
         ""
+    } catch (e: NumberFormatException) {
+        ""
     }
 }
 
