@@ -83,16 +83,16 @@ fun dateStrToDigit(str: String): String {
     val days = mutableListOf<Int>(
         31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
     )
-    try {
+    return try {
         val dd = parts[0].toInt()
         val mm = parts[1]
         val yy = parts[2].toInt()
         val numMonth = months.indexOf(mm)
-        if (yy / 4 == 0) days[1] = 29
+        if (yy % 4 == 0) days[1] = 29
         if (dd > days[numMonth] || mm !in months || dd < 1 || yy < 1) throw IndexOutOfBoundsException()
-        return String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
+        String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
-        return ""
+        ""
     }
 }
 
@@ -120,7 +120,7 @@ fun dateDigitToStr(digital: String): String {
         val numMonth = parts[1].toInt() - 1
         val yy = parts[2].toInt()
         val mm = months[numMonth]
-        if (yy / 4 == 0) days[1] = 29
+        if (yy % 4 == 0) days[1] = 29
         if (dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) throw IndexOutOfBoundsException()
         "$dd $mm $yy"
     } catch (e: IndexOutOfBoundsException) {
@@ -210,9 +210,9 @@ fun plusMinus(expression: String): Int {
             index += string[count].length
             count += 1
         }
-    } catch (e: IndexOutOfBoundsException) {
-        return res
     } catch (e: StringIndexOutOfBoundsException) {
+        return res
+    } catch (e2: IndexOutOfBoundsException) {
         return res
     }
     return res
