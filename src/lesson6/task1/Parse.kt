@@ -189,25 +189,21 @@ fun plusMinus(expression: String): Int {
     val string = expression.split(" + ", " - ")
     var res = string[0].toInt()
     var index = string[0].length - 1
+    val e = IllegalArgumentException()
     try {
         while (count < string.size || index < expression.length) {
             number = string[count].toInt()
             val operand = expression[index + 2]
             val leftSide = expression[index + 1]
             val rightSide = expression[index + 3]
-            if (number < 0) throw IllegalArgumentException()
+            if (number < 0) throw e
             if (leftSide == ' ' && rightSide == ' ') {
                 when (operand) {
-                    '+' -> {
-                        res += number
-                        index += 3
-                    }
-                    '-' -> {
-                        res -= number
-                        index += 3
-                    }
-                    else -> throw IllegalArgumentException()
+                    '+' -> res += number
+                    '-' -> res -= number
+                    else -> throw e
                 }
+                index += 3
             }
             index += string[count].length
             count += 1
