@@ -68,9 +68,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
+fun ageDescription(age: Int): String =
 
-    return when {
+    when {
         age % 100 in 5..20 -> "$age лет"
         age % 10 == 1 -> "$age год"
         age % 10 in 2..4 -> "$age года"
@@ -78,7 +78,7 @@ fun ageDescription(age: Int): String {
 
         else -> "$age лет"
     }
-}
+
 
 
 
@@ -96,14 +96,14 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val S1 = t1*v1
-    val S2 = t2*v2
-    val S3 = t3*v3
-    val half = (S1+S2+S3)/2
+    val S1 = t1 * v1
+    val S2 = t2 * v2
+    val S3 = t3 * v3
+    val half = (S1 + S2 + S3) / 2
     return when {
-        (S1>=half) -> half/v1
-        (S1+S2>=half) -> t1+(half-S1)/v2
-        else -> t1+t2+(half-S1-S2)/v3
+        (S1 >= half) -> half / v1
+        (S1 + S2 >= half) -> t1 + (half - S1) / v2
+        else -> t1 + t2 + (half - S1 - S2) / v3
     }
 }
 
@@ -121,11 +121,11 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int): Int {
-    if(kingX!=rookX1 && kingY!=rookY1 && kingX!=rookX2 && kingY!=rookY2)
+    if(kingX != rookX1 && kingY != rookY1 && kingX != rookX2 && kingY != rookY2)
         return 0
-    if(kingX==rookX1 || kingY==rookY1 && kingX!=rookX2 && kingY!=rookY2)
+    if(kingX == rookX1 || kingY == rookY1 && kingX != rookX2 && kingY != rookY2)
         return 1
-    if((kingX==rookX2 || kingY==rookY2) && kingX!=rookX1 && kingY!=rookY1)
+    if((kingX == rookX2 || kingY == rookY2) && kingX != rookX1 && kingY != rookY1)
         return 2
     else return 3
 }
@@ -146,11 +146,11 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    if(kingX!=rookX && kingY!=rookY && (kingX-kingY!=bishopX-bishopY) && (kingX+kingY!=bishopX+bishopY))
+    if(kingX != rookX && kingY != rookY && (kingX - kingY != bishopX-bishopY) && (kingX + kingY != bishopX + bishopY))
         return 0
-    if((kingX==rookX || kingY==rookY) && (kingX-kingY!=bishopX-bishopY) && (kingX+kingY!=bishopX+bishopY))
+    if((kingX == rookX || kingY == rookY) && (kingX - kingY != bishopX - bishopY) && (kingX + kingY != bishopX + bishopY))
         return 1
-    if((kingX+kingY==bishopX+bishopY || kingX-kingY==bishopX-bishopY) && kingX!=rookX && kingY!=rookY)
+    if((kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY) && kingX != rookX && kingY != rookY)
         return 2
     else return 3
 }
@@ -164,27 +164,26 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double) : Int {
-  val maxx : Double
-  val summ : Double
+    val maxx : Double
+    val summ : Double
 
-  if(a>c && a>b) {
-      maxx = a * a
-      summ=b*b+c*c
-  }
+    if(a>c && a>b) {
+        maxx = a * a
+        summ=b*b+c*c
+    }
     else if(b>a && b>c){
-      maxx=b*b
-      summ=a*a+c*c
-  }
+        maxx=b*b
+        summ=a*a+c*c
+    }
     else{
-           maxx=c*c
-           summ=a*a+b*b
-       }
+        maxx=c*c
+        summ=a*a+b*b
+    }
     if((a > b + c) || (b > a + c) || (c > b + a))
         return -1
     if(maxx<summ){ return 0}
     else if (maxx>summ){ return 2}
     else  return 1
-
 }
 
 /**

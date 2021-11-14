@@ -66,12 +66,9 @@ fun main() {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val H : Int = hours * 60 * 60
-    val M : Int = minutes * 60
-    val S : Int = seconds
-    return H + M + S
-
+    return hours + minutes + seconds
 }
+
 
 /**
  * Тривиальная (1 балл)
@@ -97,12 +94,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
-    val g : Double = deg.toDouble()
-    val m : Double = min.toDouble()
-    val s : Double = sec.toDouble()
-    return (g * 0.01745329252) + (m * 0.00029088821) + (s * 0.00000484813681109536)
-}
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
+     (deg.toDouble() * 0.01745329252) + (min.toDouble()* 0.00029088821) + (sec.toDouble() * 0.00000484813681109536)
+
 
 /**
  * Тривиальная (1 балл)
@@ -124,9 +118,8 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    return number / 100 % 10
-}
+fun thirdDigit(number: Int): Int = number / 100 % 10
+
 
 
 /**
@@ -151,14 +144,12 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val S : Double = initial.toDouble()
-    val P : Double = percent.toDouble()
-    var G : Double = S
-    for (i in 0..2) {
-        G = ( G / 100 * P ) + G
+    var F  = initial.toDouble()
 
+    for (i in 0..2) {
+        F= ( F / 100 * percent.toDouble() ) + F
     }
-    return G
+    return F
 
 }
 
