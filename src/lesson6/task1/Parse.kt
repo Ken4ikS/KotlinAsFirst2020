@@ -90,7 +90,7 @@ fun dateStrToDigit(str: String): String {
         val numMonth = months.indexOf(mm)
         if (yy / 4 == 0) days[1] = 29
         if (dd > days[numMonth] || mm !in months || dd < 1 || yy < 1) throw IndexOutOfBoundsException()
-        return String.format("%02d.%02d.%04d", dd, numMonth + 1, yy)
+        return String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
         return ""
     }
@@ -121,7 +121,7 @@ fun dateDigitToStr(digital: String): String {
         val yy = parts[2].toInt()
         val mm = months[numMonth]
         if (yy / 4 == 0) days[1] = 29
-        if (dd > days[numMonth] || numMonth !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) throw IndexOutOfBoundsException()
+        if (dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) throw IndexOutOfBoundsException()
         "$dd $mm $yy"
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -211,6 +211,8 @@ fun plusMinus(expression: String): Int {
             count += 1
         }
     } catch (e: IndexOutOfBoundsException) {
+        return res
+    } catch (e: StringIndexOutOfBoundsException) {
         return res
     }
     return res
