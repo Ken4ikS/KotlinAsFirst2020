@@ -89,7 +89,7 @@ fun dateStrToDigit(str: String): String {
         val yy = parts[2].toInt()
         val numMonth = months.indexOf(mm)
         if (yy % 4 == 0) days[1] = 29
-        if (dd > days[numMonth] || mm !in months || dd < 1 || yy < 1) throw IndexOutOfBoundsException()
+        if (dd > days[numMonth] || mm !in months || dd < 1 || yy !in 1..9999) throw IndexOutOfBoundsException()
         String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -121,7 +121,7 @@ fun dateDigitToStr(digital: String): String {
         val yy = parts[2].toInt()
         val mm = months[numMonth]
         if (yy % 4 == 0) days[1] = 29
-        if (dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) throw IndexOutOfBoundsException()
+        if (dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3 || yy !in 1..9999) throw IndexOutOfBoundsException()
         "$dd $mm $yy"
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -183,7 +183,7 @@ fun bestHighJump(jumps: String): Int = TODO()
 fun plusMinus(expression: String): Int {
     var number: Int
     var count = 1
-    if (expression[0].toString().toInt() !in 0..9) throw IllegalArgumentException()
+    if (expression.isEmpty() || expression[0].toString().toInt() !in 0..9) throw IllegalArgumentException()
     val string = expression.split(" + ", " - ")
     var res = string[0].toInt()
     var index = string[0].length - 1
@@ -210,9 +210,7 @@ fun plusMinus(expression: String): Int {
             index += string[count].length
             count += 1
         }
-    } catch (e: StringIndexOutOfBoundsException) {
-        return res
-    } catch (e2: IndexOutOfBoundsException) {
+    } catch (e: IndexOutOfBoundsException) {
         return res
     }
     return res
