@@ -69,6 +69,13 @@ Basic, Ruby, Swift.
             """.trimIndent()
         )
         File("temp.txt").delete()
+        deleteMarked("input/delete_in2.txt", "temp.txt")
+        assertFileContent(
+            "temp.txt",
+            """А_БВГД___
+
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -85,6 +92,10 @@ Basic, Ruby, Swift.
         assertEquals(
             mapOf("--" to 4, "ее" to 2, "животное" to 2, "." to 2),
             countSubstrings("input/substrings_in2.txt", listOf("--", "ее", "животное", "."))
+        )
+        assertEquals(
+            mapOf("рельсы" to 2, "22" to 3, "человек" to 1),
+            countSubstrings("input/substrings_in3.txt", listOf("рельсы", "22", "человек"))
         )
     }
 
