@@ -183,13 +183,13 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    val e = IllegalArgumentException()
+    if (expression.isEmpty() || expression[0].toString().toInt() !in 0..9) throw e
     var number: Int
     var count = 1
-    if (expression.isEmpty() || expression[0].toString().toInt() !in 0..9) throw IllegalArgumentException()
     val string = expression.split(" + ", " - ")
     var res = string[0].toInt()
     var index = string[0].length - 1
-    val e = IllegalArgumentException()
     try {
         while (count < string.size || index < expression.length) {
             number = string[count].toInt()
