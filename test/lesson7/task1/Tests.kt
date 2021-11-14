@@ -72,9 +72,7 @@ Basic, Ruby, Swift.
         deleteMarked("input/delete_in2.txt", "temp.txt")
         assertFileContent(
             "temp.txt",
-            """А_БВГД___
-
-            """.trimIndent()
+            """АБ\nАБ - """.trimIndent()
         )
     }
 
