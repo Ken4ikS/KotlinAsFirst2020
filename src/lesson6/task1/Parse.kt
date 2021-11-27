@@ -90,9 +90,7 @@ fun dateStrToDigit(str: String): String {
         val yy = parts[2].toInt()
         val numMonth = months.indexOf(mm)
         val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
-        if ((leap && dd > days[numMonth] + 1)
-            || !leap && (dd > days[numMonth] || mm !in months || dd < 1)
-        ) return ""
+        if (leap && dd > days[numMonth] + 1 || !leap && dd > days[numMonth] || mm !in months || dd < 1) return ""
         String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -119,7 +117,7 @@ fun dateDigitToStr(digital: String): String {
         val yy = parts[2].toInt()
         val mm = months[numMonth]
         val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
-        if ((leap && dd > days[numMonth] + 1) || !leap && dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) return ""
+        if (leap && dd > days[numMonth] + 1 || !leap && dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) return ""
         "$dd $mm $yy"
     } catch (e: IndexOutOfBoundsException) {
         ""
