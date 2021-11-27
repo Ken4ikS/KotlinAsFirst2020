@@ -66,18 +66,13 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    var fl = 0
     writer.use { writer ->
-        for (line in File(inputName).readLines())
-            if (line.isEmpty()) writer.newLine()
-            else
-                if (line[0] != '_') {
-                    writer.write(line)
-                    fl = 1
-                } else if (fl == 1) {
-                    writer.newLine()
-                    fl = 0
-                }
+        for (line in File(inputName).readLines()) {
+            if (!line.matches(Regex("""([_]).*"""))) {
+                writer.write(line)
+                writer.newLine()
+            }
+        }
     }
 }
 
@@ -91,15 +86,15 @@ fun deleteMarked(inputName: String, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val fullText = File(inputName).readText()
     val map = mutableMapOf<String, Int>()
     val listNonDuplicate = substrings.toSet().toList()
-    for (i in listNonDuplicate.indices)
-        for (line in File(inputName).readLines()) {
-            if (listNonDuplicate[i] !in map.keys) map[listNonDuplicate[i]] = 0
-            for (elem in line.lowercase(Locale.getDefault()).indices)
-                if (line.lowercase(Locale.getDefault()).startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), elem))
-                    map[listNonDuplicate[i]] = map[listNonDuplicate[i]]!! + 1
-        }
+    for (i in listNonDuplicate.indices) {
+        if (listNonDuplicate[i] !in map.keys) map[listNonDuplicate[i]] = 0
+        for (index in 0 until fullText.length)
+            if (fullText.lowercase(Locale.getDefault()).startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), index))
+                map[listNonDuplicate[i]] = (map[listNonDuplicate[i]] ?: 0) + 1
+    }
     return map
 }
 

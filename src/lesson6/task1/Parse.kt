@@ -74,22 +74,24 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val months = listOf(
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+)
+val days = listOf(
+    31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+)
+
 fun dateStrToDigit(str: String): String {
-    val months = listOf<String>(
-        "января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"
-    )
     val parts = str.split(" ")
-    val days = mutableListOf<Int>(
-        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-    )
     return try {
         val dd = parts[0].toInt()
         val mm = parts[1]
         val yy = parts[2].toInt()
         val numMonth = months.indexOf(mm)
-        if (yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)) days[1] = 29
-        if (dd > days[numMonth] || mm !in months || dd < 1) throw IndexOutOfBoundsException()
+        if (((yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)) && dd > days[numMonth] + 1)
+            || dd > days[numMonth] || mm !in months || dd < 1
+        ) return ""
         String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -110,20 +112,14 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val months = listOf<String>(
-        "января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"
-    )
-    val days = mutableListOf<Int>(
-        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-    )
     return try {
         val dd = parts[0].toInt()
         val numMonth = parts[1].toInt() - 1
         val yy = parts[2].toInt()
         val mm = months[numMonth]
-        if (yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)) days[1] = 29
-        if (dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3) throw IndexOutOfBoundsException()
+        if (((yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)) && dd > days[numMonth] + 1) ||
+            dd > days[numMonth] || numMonth + 1 !in 1..12 || dd < 1 || yy < 1 || parts.size > 3
+        ) return ""
         "$dd $mm $yy"
     } catch (e: IndexOutOfBoundsException) {
         ""
@@ -190,26 +186,22 @@ fun plusMinus(expression: String): Int {
     val string = expression.split(" + ", " - ")
     var res = string[0].toInt()
     var index = string[0].length - 1
-    try {
-        while (count < string.size || index < expression.length) {
-            number = string[count].toInt()
-            val operand = expression[index + 2]
-            val leftSide = expression[index + 1]
-            val rightSide = expression[index + 3]
-            if (number < 0) throw e
-            if (leftSide == ' ' && rightSide == ' ') {
-                when (operand) {
-                    '+' -> res += number
-                    '-' -> res -= number
-                    else -> throw e
-                }
-                index += 3
+    while (count < string.size && index < expression.length) {
+        number = string[count].toInt()
+        val operand = expression[index + 2]
+        val leftSide = expression[index + 1]
+        val rightSide = expression[index + 3]
+        if (number < 0) throw e
+        if (leftSide == ' ' && rightSide == ' ') {
+            when (operand) {
+                '+' -> res += number
+                '-' -> res -= number
+                else -> throw e
             }
-            index += string[count].length
-            count += 1
+            index += 3
         }
-    } catch (e: IndexOutOfBoundsException) {
-        return res
+        index += string[count].length
+        count += 1
     }
     return res
 }
