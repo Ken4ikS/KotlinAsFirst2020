@@ -112,11 +112,12 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
+    if (parts.size != 3) return ""
     return try {
         val dd = parts[0].toInt()
         val numMonth = parts[1].toInt() - 1
         val yy = parts[2].toInt()
-        if (parts.size != 3 || parts[1].toInt() !in 1..12) return ""
+        if (parts[1].toInt() !in 1..12) return ""
         val mm = months[numMonth]
         val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
         if (leap && dd > days[numMonth] && numMonth != 1 || !leap && dd > days[numMonth] || dd < 1 || yy < 1 || numMonth == 1 && leap && dd > days[numMonth] + 1) return ""
