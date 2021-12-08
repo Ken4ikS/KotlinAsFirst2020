@@ -86,14 +86,18 @@ fun deleteMarked(inputName: String, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val fullText = File(inputName).readText()
     val map = mutableMapOf<String, Int>()
     val listNonDuplicate = substrings.toSet().toList()
-    for (i in listNonDuplicate.indices) {
-        if (listNonDuplicate[i] !in map.keys) map[listNonDuplicate[i]] = 0
-        for (index in 0 until fullText.length)
-            if (fullText.lowercase(Locale.getDefault()).startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), index))
-                map[listNonDuplicate[i]] = (map[listNonDuplicate[i]] ?: 0) + 1
+    for (line in File(inputName).readLines()) {
+        for (i in listNonDuplicate.indices) {
+            if (listNonDuplicate[i] !in map.keys) map[listNonDuplicate[i]] = 0
+            for (elem in line.lowercase(Locale.getDefault()).indices) {
+                if (line.lowercase(Locale.getDefault())
+                        .startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), elem)
+                )
+                    map[listNonDuplicate[i]] = (map[listNonDuplicate[i]] ?: 0) + 1
+            }
+        }
     }
     return map
 }
@@ -164,7 +168,37 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var max = 0
+    for (line in File(inputName).readLines()) {
+        val actualLen = line.trim().length
+        if (actualLen > max) max = actualLen
+        Regex("""\s+""").replace("line", " ")
+    }
+    writer.use { writer ->
+        File(inputName).readLines().forEach() {
+            val words = it.trim().split(" ").toMutableList()
+            val size = words.size
+            if (words.isEmpty()) writer.newLine()
+            else {
+                if (size == 1) {
+                    writer.write(it.trim())
+                    writer.newLine()
+                } else {
+                    var k = 0
+                    var diff = max - it.trim().length
+                    while (diff > 0) {
+                        diff--
+                        words[k] += " "
+                        if (k != size - 2) k++
+                        else k = 0
+                    }
+                    writer.write(words.joinToString(" "))
+                    writer.newLine()
+                }
+            }
+        }
+    }
 }
 
 /**
