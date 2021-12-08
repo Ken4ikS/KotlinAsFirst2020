@@ -92,9 +92,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         for (i in listNonDuplicate.indices) {
             if (listNonDuplicate[i] !in map.keys) map[listNonDuplicate[i]] = 0
             for (elem in line.lowercase(Locale.getDefault()).indices) {
-                if (line.lowercase(Locale.getDefault())
-                        .startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), elem)
-                )
+                if (line.lowercase(Locale.getDefault()).startsWith(listNonDuplicate[i].lowercase(Locale.getDefault()), elem))
                     map[listNonDuplicate[i]] = (map[listNonDuplicate[i]] ?: 0) + 1
             }
         }
@@ -171,34 +169,32 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var max = 0
     for (line in File(inputName).readLines()) {
-        val actualLen = line.trim().length
-        if (actualLen > max) max = actualLen
-        Regex("""\s+""").replace("line", " ")
+        val actLen = line.trim().length
+        if (actLen > max) max = actLen
+        Regex("""\s+""").replace(line, " ")
     }
-    writer.use { writer ->
-        File(inputName).readLines().forEach() {
-            val words = it.trim().split(" ").toMutableList()
-            val size = words.size
-            if (words.isEmpty()) writer.newLine()
-            else {
-                if (size == 1) {
-                    writer.write(it.trim())
-                    writer.newLine()
-                } else {
-                    var k = 0
-                    var diff = max - it.trim().length
-                    while (diff > 0) {
-                        diff--
-                        words[k] += " "
-                        if (k != size - 2) k++
-                        else k = 0
-                    }
-                    writer.write(words.joinToString(" "))
-                    writer.newLine()
+    for (line in File(inputName).readLines()) {
+        val words = line.trim().split(Regex("""\s+""")).toMutableList()
+        if (words.isEmpty()) writer.newLine()
+        else {
+            if (words.size == 1) {
+                writer.write(line.trim())
+                writer.newLine()
+            } else {
+                var k = 0
+                var diff = max - line.trim().length
+                while (diff > 0) {
+                    diff--
+                    words[k] += " "
+                    if (k != words.size - 2) k++
+                    else k = 0
                 }
+                writer.write(words.joinToString(" "))
+                writer.newLine()
             }
         }
     }
+writer.close()
 }
 
 /**
