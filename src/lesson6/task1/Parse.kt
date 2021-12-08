@@ -91,7 +91,9 @@ fun dateStrToDigit(str: String): String {
         val yy = parts[2].toInt()
         val numMonth = months.indexOf(mm)
         val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
-        if (mm !in months || !leap && dd > days[numMonth] || dd < 1 || leap && dd > days[numMonth] + 1) return ""
+        if (mm !in months || !leap && dd > days[numMonth] || dd < 1 || leap && numMonth != 1 && dd > days[numMonth] || yy < 1 ||
+            leap && numMonth == 1 && dd > days[numMonth] + 1
+        ) return ""
         String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
     } catch (e: NumberFormatException) {
         ""
@@ -117,7 +119,7 @@ fun dateDigitToStr(digital: String): String {
         if (parts.size != 3 || parts[1].toInt() !in 1..12) return ""
         val mm = months[numMonth]
         val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
-        if (leap && dd > days[numMonth] + 1 || !leap && dd > days[numMonth] || dd < 1 || yy < 1 || parts.size > 3) return ""
+        if (leap && dd > days[numMonth] && numMonth != 1 || !leap && dd > days[numMonth] || dd < 1 || yy < 1 || numMonth == 1 && leap && dd > days[numMonth] + 1) return ""
         "$dd $mm $yy"
     } catch (e: NumberFormatException) {
         ""
