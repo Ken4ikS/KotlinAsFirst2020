@@ -170,8 +170,8 @@ Basic, Ruby, Swift.
         alignFileByWidth("input/width_in2.txt", "temp.txt")
         assertFileContent(
             "temp.txt",
-            """еаб; юбаёаб
-                |ЮБАЁАБ  АЮА""".trimMargin()
+            """аяы - БАБ / АААБ, ГФШБПБ
+                |аяы:     АВБАЛБ    аааб:""".trimMargin()
         )
         File("temp.txt").delete()
 

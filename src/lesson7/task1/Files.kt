@@ -175,7 +175,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     }
     writer.use { writer ->
         File(inputName).readLines().forEach() {
-            val words = it.trim().split(" ").toMutableList()
+            val words = it.replace(Regex("""\s+"""), " ").trim().split(" ").toMutableList()
             val size = words.size
             if (words.isEmpty()) writer.newLine()
             else {
@@ -184,12 +184,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                     writer.newLine()
                 } else {
                     var k = 0
-                    var diff = max - it.trim().length
+                    var diff = max - it.replace(Regex("""\s+"""), " ").trim().length
                     while (diff > 0) {
-                        diff--
                         words[k] += " "
                         if (k != size - 2) k++
                         else k = 0
+                        diff--
                     }
                     writer.write(words.joinToString(" "))
                     writer.newLine()
