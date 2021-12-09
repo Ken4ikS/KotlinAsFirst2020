@@ -186,10 +186,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                     var k = 0
                     var diff = max - it.replace(Regex("""\s+"""), " ").trim().length
                     while (diff > 0) {
+                        diff--
                         words[k] += " "
                         if (k != size - 2) k++
                         else k = 0
-                        diff--
                     }
                     writer.write(words.joinToString(" "))
                     writer.newLine()
