@@ -120,16 +120,7 @@ fun timeForHalfWay(
 fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
-    rookX2: Int, rookY2: Int): Int {
-    if(kingX != rookX1 && kingY != rookY1 && kingX != rookX2 && kingY != rookY2)
-        return 0
-    if(kingX == rookX1 || kingY == rookY1 && kingX != rookX2 && kingY != rookY2)
-        return 1
-    if((kingX == rookX2 || kingY == rookY2) && kingX != rookX1 && kingY != rookY1)
-        return 2
-    else return 3
-}
-
+    rookX2: Int, rookY2: Int): Int = TODO()
 
 /**
  * Простая (2 балла)
@@ -145,15 +136,7 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    if(kingX != rookX && kingY != rookY && (kingX - kingY != bishopX-bishopY) && (kingX + kingY != bishopX + bishopY))
-        return 0
-    if((kingX == rookX || kingY == rookY) && (kingX - kingY != bishopX - bishopY) && (kingX + kingY != bishopX + bishopY))
-        return 1
-    if((kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY) && kingX != rookX && kingY != rookY)
-        return 2
-    else return 3
-}
+): Int = TODO()
 
 /**
  * Простая (2 балла)
@@ -164,14 +147,14 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double) : Int {
-    val maxx : Double
-    val summ : Double
+    var maxx : Double = maxOf(a,b,c)
+    var summ : Double
 
-    if(a>c && a>b) {
+    if(maxx==a) {
         maxx = a * a
         summ=b*b+c*c
     }
-    else if(b>a && b>c){
+    else if(maxx==b){
         maxx=b*b
         summ=a*a+c*c
     }
@@ -179,11 +162,12 @@ fun triangleKind(a: Double, b: Double, c: Double) : Int {
         maxx=c*c
         summ=a*a+b*b
     }
-    if((a > b + c) || (b > a + c) || (c > b + a))
-        return -1
-    if(maxx<summ){ return 0}
-    else if (maxx>summ){ return 2}
-    else  return 1
+    return when {
+        (a > b + c) || (b > a + c) || (c > b + a) -> -1
+        (maxx < summ) -> 0
+        (maxx > summ) -> 2
+        else -> 1
+    }
 }
 
 /**

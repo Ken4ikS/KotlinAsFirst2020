@@ -66,7 +66,7 @@ fun main() {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    return hours + minutes + seconds
+    return (hours * 3600) + ( minutes * 60 ) + seconds
 }
 
 
@@ -77,16 +77,9 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val sag : Double = sagenes.toDouble()
-    val ars : Double = arshins.toDouble()
-    val ver : Double = vershoks.toDouble()
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+    ( ( ( ( sagenes.toDouble() * 3 + arshins.toDouble() ) * 16) + vershoks.toDouble()) * 4.445 ) / 100
 
-    val ar : Double = sag * 3 + ars
-    val ve : Double = ar * 16
-    return ((ve + ver) * 4.445)/100
-
-}
 
 /**
  * Тривиальная (1 балл)
@@ -95,7 +88,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
-     (deg.toDouble() * 0.01745329252) + (min.toDouble()* 0.00029088821) + (sec.toDouble() * 0.00000484813681109536)
+     (deg.toDouble() * PI / 180 ) + (min.toDouble()* 0.00029088821) + (sec.toDouble() * 0.00000484813681109536)
 
 
 /**
@@ -104,13 +97,11 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val A : Double = x1 - x2
-    val B : Double = y1 - y2
-    val C : Double = A.pow(2) + B.pow(2)
-    return sqrt(C)
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+    sqrt(( x1 - x2 ).pow(2) + ( y1 - y2 ).pow(2) )
 
-}
+
+
 
 /**
  * Простая (2 балла)
@@ -129,12 +120,9 @@ fun thirdDigit(number: Int): Int = number / 100 % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val H1 : Int = hoursArrive * 60 + minutesArrive
-    val H2 : Int = hoursDepart * 60 + minutesDepart
-    return H1 - H2
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+    (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 
-}
 
 /**
  * Простая (2 балла)
@@ -144,12 +132,12 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    var F  = initial.toDouble()
+    var f  = initial.toDouble()
 
     for (i in 0..2) {
-        F= ( F / 100 * percent.toDouble() ) + F
+        f= ( f / 100 * percent.toDouble() ) + f
     }
-    return F
+    return f
 
 }
 
@@ -159,10 +147,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int {
-    val G : Int = number / 100
-    val F : Int = number % 10
-    val H : Int = number % 100 / 10
-    return G + (F*100) + H*10
+fun numberRevert(number: Int): Int =
+    number / 100 + (number % 10 * 100) + number % 10 *10
 
-}
+
