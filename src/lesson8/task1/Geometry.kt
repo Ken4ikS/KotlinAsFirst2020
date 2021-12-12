@@ -184,8 +184,8 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 //defY == 0 && defX == 1 --> can be deleted from the equation
 fun lineBySegment(s: Segment): Line {
-    val x1 = s.end.x - s.begin.x
-    val y1 = s.end.y - s.begin.y
+    val x1 = maxOf(s.end.x, s.begin.x) - minOf(s.end.x, s.begin.x)
+    val y1 = maxOf(s.end.y, s.begin.y) - minOf(s.end.y, s.begin.y)
     val angle = acos(abs(x1) / sqrt(x1 * x1 + y1 * y1))
     return Line(s.begin, angle)
 }
