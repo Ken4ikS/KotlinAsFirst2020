@@ -183,13 +183,12 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 const val defX = 1.0
-
 //defY == 0  --> can be deleted from the equation
 fun lineBySegment(s: Segment): Line {
-    val x1 = s.end.x + s.begin.x
-    val y1 = s.end.y + s.begin.y
-    val angle = acos((x1 * defX) / (defX * sqrt((sqr(x1)) + sqr(y1))))
-    return Line(s.begin, angle)
+    val x1 = s.end.x - s.begin.x
+    val y1 = s.end.y - s.begin.y
+    val angle = acos(abs(x1 / sqrt(x1 * x1 + y1 * y1)))
+    return Line(Point(x1, y1), angle)
 }
 
 /**
