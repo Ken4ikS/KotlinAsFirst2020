@@ -186,8 +186,8 @@ const val defX = 1.0
 
 //defY == 0  --> can be deleted from the equation
 fun lineBySegment(s: Segment): Line {
-    val x1 = s.end.x - s.begin.x
-    val y1 = s.end.y - s.begin.y
+    val x1 = s.end.x + s.begin.x
+    val y1 = s.end.y + s.begin.y
     val angle = acos((x1 * defX) / (defX * sqrt((sqr(x1)) + sqr(y1))))
     return Line(s.begin, angle)
 }
@@ -205,9 +205,9 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val c = Point((a.x + b.x) / 2, (b.y + a.y) / 2)
+    val c = Point((a.x + b.x) / 2.0, (b.y + a.y) / 2.0)
     var angle = lineByPoints(a, b).angle
-    val addAngle = PI / 2
+    val addAngle = PI / 2.0
     if (angle < addAngle) angle += addAngle
     else angle -= addAngle
     return Line(c, angle)
