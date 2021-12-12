@@ -186,7 +186,7 @@ class Line private constructor(val b: Double, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val x1 = s.end.x - s.begin.x
     val y1 = s.end.y - s.begin.y
-    var angle = acos(abs(x1) / sqrt(x1 * x1 + y1 * y1))
+    var angle = atan(abs(y1 / x1))
     if (angle < 0.0) angle += PI
     return Line(s.begin, angle)
 }
