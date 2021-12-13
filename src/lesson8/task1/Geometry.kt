@@ -204,8 +204,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    var c = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    if (a.x == 0.0 || b.x == 0.0 || a.y == 0.0 || b.y == 0.0) c = Point((a.x + (b.x - a.x)) / 2.0, (a.y + (b.y - a.y)) / 2.0)
+    val c = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
     var angle = lineByPoints(a, b).angle
     val addAngle = PI / 2.0
     if (angle < addAngle) angle += addAngle
