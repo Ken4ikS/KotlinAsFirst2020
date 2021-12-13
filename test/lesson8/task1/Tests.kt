@@ -200,7 +200,7 @@ class Tests {
     @Test
     @Tag("3")
     fun lineBySegment() {
-        assertApproxEquals(Line(Point(0.0, 1.0), 0.0), lineBySegment(Segment(Point(0.0, 1.0), Point(1.0, 1.0))))
+        assertApproxEquals(Line(Point(0.5441097294015061, 5e-324), 1.5707614702439976), lineBySegment(Segment(Point(0.5441097294015061, 5e-324), Point(0.5220803892245913, -632.0))))
         assertApproxEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(1.0, 0.0), Point(0.0, 0.0))))
         assertApproxEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(0.0, 0.0), Point(7.0, 0.0))))
         assertApproxEquals(Line(Point(0.0, 0.0), PI / 2), lineBySegment(Segment(Point(0.0, 0.0), Point(0.0, 8.0))))
