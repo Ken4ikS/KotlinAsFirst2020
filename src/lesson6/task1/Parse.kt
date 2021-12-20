@@ -87,7 +87,6 @@ fun dateStrToDigit(str: String): String = TODO()
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String = TODO()
-
 /**
  * Средняя (4 балла)
  *
@@ -152,22 +151,21 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    var res = expression.split(" ")
-    if(res.size == 1 ) return expression.toInt()
-    var n = 1
-    var r = 0
-    var sl = 0
-    for(it in 0 until res.size) {
-        when {
-            res[n] == "+" -> sl = res[it].toInt() + res[it + 2].toInt()
-            res[n] == "-" ->r = res[it].toInt() - res[it + 2].toInt()
-            res[it] == "+" || res[it] == "-" -> "IllegalArgumentException"
-    }
-        n+2
 
+    if (!Regex("""[0-9]+((\s[+-]\s[0-9]+)+)?""").matches(expression)) {
+        throw IllegalArgumentException()
     }
-     return 1
+    var list = expression.split(" ")
+    var res = list[0].toInt()
+    for(i in 0 .. (list.size - 3)){
+        if(i % 2 == 0 ){
+            if (list[i+1] == "+") res += list[i+2].toInt()
+            if (list[i+1] == "-") res -=list[i+2].toInt()
+        }
+    }
+    return res
 }
+
 
 /**
  * Сложная (6 баллов)

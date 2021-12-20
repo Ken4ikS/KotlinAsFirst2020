@@ -182,8 +182,26 @@ TODO()
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-     TODO()
-}
+    val res = mutableMapOf<String, Double>()
+    val listname = mutableListOf<String>()
+    val listcost = mutableListOf<Double>()
+    val count = mutableMapOf<String , Int>()
+    for(i in stockPrices.indices){
+        listname.add(stockPrices[i].first)
+        listcost.add(stockPrices[i].second)
+        res[listname[i]] = 0.0
+        count[listname[i]] = 0
+    }
+    for(i in listname.indices) {
+        res[listname[i]] = res.getValue(listname[i]) + listcost[i]
+        count[listname[i]] = count.getValue(listname[i]) + 1
+    }
+    val set = mutableSetOf<String>()
+    listname.forEach{set.add(it)}
+    for(i in set) res[i] = res.getValue(i) / count[i]!!
+    return res
+    }
+
 
 /**
  * Средняя (4 балла)
