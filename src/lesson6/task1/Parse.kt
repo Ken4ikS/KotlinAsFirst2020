@@ -127,7 +127,7 @@ fun bestLongJump(jumps: String): Int {
                 return -1
             }
     return res.maxOrNull() ?: -1
-}
+} // X
 
 
 /**
@@ -142,7 +142,6 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int = TODO()
-
 /**
  * Сложная (6 баллов)
  *
@@ -152,7 +151,23 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var res = expression.split(" ")
+    if(res.size == 1 ) return expression.toInt()
+    var n = 1
+    var r = 0
+    var sl = 0
+    for(it in 0 until res.size) {
+        when {
+            res[n] == "+" -> sl = res[it].toInt() + res[it + 2].toInt()
+            res[n] == "-" ->r = res[it].toInt() - res[it + 2].toInt()
+            res[it] == "+" || res[it] == "-" -> "IllegalArgumentException"
+    }
+        n+2
+
+    }
+     return 1
+}
 
 /**
  * Сложная (6 баллов)
@@ -164,7 +179,14 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    TODO()
+    var parse = str.toLowerCase().split(" ")
+    if(parse.size == 1) return -1
+    var res = 0
+    for( it in 0 until parse.size) {
+        if (parse[it] == parse[it + 1]) return res
+        res += parse[it].length + 1
+    }
+    return -1
 }
 
 /**
@@ -196,7 +218,7 @@ fun mostExpensive(description: String): String {
     } catch (a: IndexOutOfBoundsException) {
         ""
     }
-}
+}  // X
 /**
  * Сложная (6 баллов)
  *

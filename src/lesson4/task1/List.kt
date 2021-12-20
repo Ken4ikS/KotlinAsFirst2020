@@ -122,7 +122,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var otv : Double = 0.0
+    var otv = 0.0
     for(i in 0 until v.size) {
         otv += v[i].pow(2)
     }
@@ -135,7 +135,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if(list.size==0) return 0.0
+    if(list.isEmpty()) return 0.0
     else return list.sum()/list.size
 }
 /**
@@ -147,10 +147,9 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var srzn = list.sum() / list.size
+    var sr = mean(list)
     for(i in 0 until list.size)
-        list[i]-=srzn
-
+        list[i] -= sr
     return list
 }
 
@@ -180,7 +179,6 @@ fun times(a: List<Int>, b: List<Int>): Int {
 fun polynom(p: List<Int>, x: Int): Int {
     if( p.size == 0) return 0
     else if (p.size == 1) return p[0]
-    else if (p.size == 2) return p[0] + p[1] * x
     else {
         var sum: Int = p[0] + p[1] * x
         for (i in 2 until p.size) {

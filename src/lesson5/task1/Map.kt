@@ -181,7 +181,9 @@ TODO()
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+     TODO()
+}
 
 /**
  * Средняя (4 балла)
@@ -199,6 +201,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+
 
 /**
  * Средняя (3 балла)
@@ -230,7 +233,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
         else m[i] = 1
     }
     return m.filter{ (key, value) -> value!! >= 2}
-}
+} // X
 
 /**
  * Средняя (3 балла)
@@ -309,7 +312,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
             m[list[i]] = i
     }
     return -1 to -1
-}
+} // X
 
 /**
  * Очень сложная (8 баллов)
