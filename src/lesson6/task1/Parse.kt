@@ -87,6 +87,7 @@ fun dateStrToDigit(str: String): String = TODO()
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String = TODO()
+
 /**
  * Средняя (4 балла)
  *
@@ -157,13 +158,14 @@ fun plusMinus(expression: String): Int {
     }
     var list = expression.split(" ")
     var res = list[0].toInt()
-    for(i in 0 .. (list.size - 3)){
+    for(i in 0 .. (list.size - 3 )){
         if(i % 2 == 0 ){
             if (list[i+1] == "+") res += list[i+2].toInt()
             if (list[i+1] == "-") res -=list[i+2].toInt()
         }
     }
     return res
+
 }
 
 
@@ -267,3 +269,6 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+
