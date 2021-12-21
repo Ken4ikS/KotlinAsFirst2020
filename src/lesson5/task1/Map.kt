@@ -187,8 +187,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val listcost = mutableListOf<Double>()
     val count = mutableMapOf<String , Int>()
     for(i in stockPrices.indices){
-        listname.add(stockPrices[i].first)
-        listcost.add(stockPrices[i].second)
+        listname.add(stockPrices[i].first) // ("MSFT , "MSFT" , "NFLX")
+        listcost.add(stockPrices[i].second)// (100.0 , 200.0 , 40.0)
         res[listname[i]] = 0.0
         count[listname[i]] = 0
     }
