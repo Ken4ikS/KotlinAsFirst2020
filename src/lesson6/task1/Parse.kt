@@ -115,18 +115,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val res = mutableListOf<Int>()
-    for (elem in jumps.split(' '))
-        if (elem !in listOf("-", "%"))
-            try {
-                val result = elem.toInt()
-                res.add(result)
-            }
-
-            catch (e: NumberFormatException) {
-                return -1
-            }
-    return res.maxOrNull() ?: -1
+    TODO()
+   // val res = mutableListOf<Int>()
+   // for (elem in jumps.split(' '))
+   //     if (elem !in listOf("-", "%"))
+   //         try {
+   //             val result = elem.toInt()
+   //             res.add(result)
+   //         }
+   //
+   //         catch (e: NumberFormatException) {
+   //             return -1
+   //         }
+   // return res.maxOrNull() ?: -1
 } // X
 
 
@@ -201,23 +202,24 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String {
-    var name = ""
-    var price = 0.0
-    var parts = description.split("; ")
-    return try {
-        for (element in parts.indices) {
-            val pair = parts[element].split(" ")
-            if (price <= pair[1].toDouble()) {
-                price = pair[1].toDouble()
-                name = pair[0]
-            }
-        }
-        return name
-    } catch (e: NumberFormatException) {
-        ""
-    } catch (a: IndexOutOfBoundsException) {
-        ""
-    }
+    TODO()
+    // var name = ""
+    // var price = 0.0
+    // var parts = description.split("; ")
+    // return try {
+    //    for (element in parts.indices) {
+    //        val pair = parts[element].split(" ")
+    //        if (price <= pair[1].toDouble()) {
+    //            price = pair[1].toDouble()
+    //            name = pair[0]
+    //        }
+    //    }
+    //    return name
+    // } catch (e: NumberFormatException) {
+    //    ""
+    // } catch (a: IndexOutOfBoundsException) {
+    //    ""
+    // }
 }  // X
 /**
  * Сложная (6 баллов)
