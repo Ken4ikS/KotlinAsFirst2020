@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.min
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -219,7 +221,6 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
-
 
 /**
  * Средняя (3 балла)
