@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.NumberFormatException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -142,7 +144,20 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+//    var j = mutableListOf<Int>()
+//    for(i in jumps.split(' ')){
+//        if(jumps.contains(Regex("""(([%\-+])(\d))|((\d)([%\-+]))""")) || jumps.contains(Regex("""[^\d\s\-%+]"""))) {
+//            return -1
+//        }
+//        else {
+//            j.add(i.toInt())
+//        }
+//        }
+//   return j.maxOrNull() ?: -1
+TODO()
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -153,7 +168,6 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-
     if (!Regex("""[0-9]+((\s[+-]\s[0-9]+)+)?""").matches(expression)) {
         throw IllegalArgumentException()
     }
@@ -166,7 +180,6 @@ fun plusMinus(expression: String): Int {
         }
     }
     return res
-
 }
 
 
@@ -182,10 +195,14 @@ fun plusMinus(expression: String): Int {
 fun firstDuplicateIndex(str: String): Int {
     var parse = str.toLowerCase().split(" ")
     if(parse.size == 1) return -1
+
     var res = 0
     for( it in 0 until parse.size) {
-        if (parse[it] == parse[it + 1]) return res
+        if (parse[it] == parse[it + 1])  return res
+        else if (parse.size == 2 && parse[it] != parse[it+1])  return -1
         res += parse[it].length + 1
+
+
     }
     return -1
 }
