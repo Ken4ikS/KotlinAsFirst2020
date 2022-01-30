@@ -145,19 +145,20 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-//    var j = mutableListOf<Int>()
-//    for(i in jumps.split(' ')){
-//        if(jumps.contains(Regex("""(([%\-+])(\d))|((\d)([%\-+]))""")) || jumps.contains(Regex("""[^\d\s\-%+]"""))) {
-//            return -1
-//        }
-//        else {
-//            j.add(i.toInt())
-//        }
-//        }
-//   return j.maxOrNull() ?: -1
-TODO()
-}
+   val dam = jumps.split(" ")
+   var m = -1
+   var d = 0
+    if(jumps.contains(Regex("""[^\d\s[-+%]]""")) || jumps.contains(Regex("""(([%+-](\d))|((\d)([%+-])))"""))) return -1
 
+      for(el in 0 until dam.size) {
+         if ( dam[el] == "+"){
+             d = dam[el - 1].toInt()
+       }
+
+          if(d > m) m=d
+   }
+    return m
+}
 /**
  * Сложная (6 баллов)
  *
