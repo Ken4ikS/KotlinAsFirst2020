@@ -114,7 +114,25 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val text = File(inputName).readText()
+    val consonants = setOf<Char>('ж' , 'ч' , 'ш' , 'щ')
+    val result = StringBuilder()
+
+    for(i in text.indices){
+        if(i >= 1 && text[i - 1].toLowerCase() in consonants) {
+            val inUppercase = text[i].isUpperCase()
+            val newLetter = when (val toChange = text[i].toLowerCase()) {
+                'ы' -> 'и'
+                'я' -> 'а'
+                'ю' -> 'у'
+                else -> toChange
+            }
+            if (inUppercase) result.append(newLetter.toUpperCase()) else result.append(newLetter)
+        }
+        else result.append(text[i])
+
+    }
+    File(outputName).writeText(result.toString())
 }
 
 /**
