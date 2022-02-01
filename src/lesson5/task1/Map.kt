@@ -82,7 +82,7 @@ fun removeFillerWords(
  * Для заданного текста `text` построить множество встречающихся в нем слов
  */
 fun buildWordSet(text: List<String>): MutableSet<String> {
-    val res = mutableSetOf<String>()
+    val res = mutableSetOf<String>() //
     for (word in text) res.add(word)
     return res
 }
@@ -187,10 +187,10 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val res = mutableMapOf<String, Double>()
     val listname = mutableListOf<String>()
     val listcost = mutableListOf<Double>()
-    val count = mutableMapOf<String , Int>()
+    val count = mutableMapOf<String,Int>()
     for(i in stockPrices.indices){
-        listname.add(stockPrices[i].first) // ("MSFT , "MSFT" , "NFLX")
-        listcost.add(stockPrices[i].second)// (100.0 , 200.0 , 40.0)
+        listname.add(stockPrices[i].first)
+        listcost.add(stockPrices[i].second)
         res[listname[i]] = 0.0
         count[listname[i]] = 0
     }
@@ -220,7 +220,21 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+  var price= 99999.0
+  var name = ""
+  for((key) in stuff){
+      if(stuff[key]?.first == kind && stuff[key]?.second!! < price  ){
+              price = stuff[key]?.second ?: return null
+              name = key
+  }
+
+}
+    if(name == "") return null
+    return name
+}
+
+
 
 /**
  * Средняя (3 балла)
