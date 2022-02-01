@@ -301,4 +301,51 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+    val digitsFirst = arrayOf("одна" , "две" , "три" , "четыре" , "пять" , "шесть" , "семь" , "восемь" , "девять" )
+
+    val digitsSecond = arrayOf("десять" , "двадцать" , "тридцать" , "сорок" , "пятьдесят" , "шестьдесят" , "семьдесят" , "восемьдесят" , "девяносто" )
+
+    val digitsThird = listOf("сто" , "двести" , "триста" , "четыреста" , "пятьсот" , "шестьсот" , "семьсот" , "восемьсот" , "девятьсот" )
+
+    val digitsFourth = arrayOf("один" , "два" , "три" , "четыре" , "пять" , "шесть" , "семь" , "восемь" , "девять" , "десять"
+        , "одиннадцать" , "двенадцать" , "тринадцать" , "четырнадцать" , "пятнадцать" , "шестнадцать" , "семнадцать" , "восемнадцать" , "девятнадцать" )
+fun formOfThousand(n: Int): String{
+    return when {
+        n % 100 in 11..19 -> "тысяч"
+        n % 10 in 2..4 -> "тысячи"
+        n % 10 == 1 -> "тысяча"
+        else -> "тысяч"
+    }
+}
+fun threes(n: Int , thousand: Boolean) : List<String>{
+    val result = mutableListOf<String>()
+
+    if(n / 100 != 0) result.add(digitsThird[n / 100 - 1])
+
+    if(n % 100 in 1..19 && !thousand || n % 100 in 3 .. 19 && thousand){
+        result.add(digitsFourth[n % 100 - 1])
+        return result
+    }
+    if(n % 100 in 1..2 ){
+        result.add(digitsFirst[n % 100 - 1 ])
+        return result
+    }
+    if(n / 10 % 10 != 0 ) result.add(digitsSecond[n / 10 % 10 - 1])
+    if(n % 10 != 0 ){
+        if(thousand){
+            result.add(digitsFirst[n % 10 - 1])
+        }
+        else result.add(digitsFourth[n % 10 - 1])
+    }
+    return result
+}
+
+fun russian(n: Int): String {
+    val firstThree = threes(n / 1000 , true).toMutableList()
+    firstThree.add(formOfThousand(n / 1000))
+    val secondThree = threes(n % 1000 , false)
+    return if (n > 1000) (firstThree + secondThree).joinToString(separator = " ")
+    else secondThree.joinToString(separator = " ")
+
+}
