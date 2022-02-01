@@ -322,7 +322,39 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    var Text = File(inputName).readText()
+    var toReturn = File(outputName).bufferedWriter()
+    val sb = StringBuilder("<html><body><p>")
+
+    val modi = mapOf(
+        Pair("~~([\\s\\S]*?)~~", Pair("s", "~~")),
+        Pair("\\*\\*([\\s\\S]*?)\\*\\*", Pair("b", "**")),
+        Pair("\\*([\\s\\S]*?)\\*", Pair("i", "*"))
+    )
+    modi.forEach { (pattern, changes) ->
+        Text = Regex(pattern).replace(Text) { it ->
+            "<${changes.first}>" + it.value.replace(changes.second, "") + "</${changes.first}>"
+        }
+    }
+
+    var counter = 0
+    val lines = Text.split("\n") as MutableList
+    for (idx in lines.indices){
+        if(lines[idx].trim().isBlank()){
+            if(counter > 0 ){
+                if(lines.size > idx + 1 && lines[idx + 1].trim().isNotEmpty()){
+                    lines[idx] = "</p><p>"
+                    counter = 0
+                }
+            }
+        } else{
+            counter++
+        }
+}
+    sb.append(lines.joinToString(separator = "" ))
+    toReturn.write("$sb</p></body></html>")
+    toReturn.close()
+
 }
 
 /**
