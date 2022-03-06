@@ -76,7 +76,31 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+val months = listOf(
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+)
+val days = listOf(
+    31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+)
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    return try {
+        val dd = parts[0].toInt()
+        val mm = parts[1]
+        val yy = parts[2].toInt()
+        val numMonth = months.indexOf(mm)
+        val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
+        if (mm !in months || !leap && dd > days[numMonth] || dd < 1 || leap && numMonth != 1 && dd > days[numMonth] || yy < 1 ||
+            leap && numMonth == 1 && dd > days[numMonth] + 1
+        ) return ""
+        String.format("%02d.%02d.%d", dd, numMonth + 1, yy)
+    } catch (e: NumberFormatException) {
+        ""
+    }
+}
 
 /**
  * Средняя (4 балла)
@@ -88,7 +112,22 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    return try {
+        val dd = parts[0].toInt()
+        val numMonth = parts[1].toInt() - 1
+        val yy = parts[2].toInt()
+        if (parts[1].toInt() !in 1..12) return ""
+        val mm = months[numMonth]
+        val leap = yy % 4 == 0 && (yy % 100 != 0 || yy % 400 == 0)
+        if (leap && dd > days[numMonth] && numMonth != 1 || !leap && dd > days[numMonth] || dd < 1 || yy < 1 || numMonth == 1 && leap && dd > days[numMonth] + 1) return ""
+        "$dd $mm $yy"
+    } catch (e: NumberFormatException) {
+        ""
+    }
+}
 
 /**
  * Средняя (4 балла)

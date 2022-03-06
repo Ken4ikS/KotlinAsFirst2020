@@ -222,7 +222,16 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val s = mutableListOf<String>()
+    var num = n
+    while (num > 1) {
+        val minDiv = minDivisor(num)
+        s.add("$minDiv")
+        num /= minDiv
+    }
+    return s.joinToString(separator = "*")
+}
 
 /**
  * Средняя (3 балла)

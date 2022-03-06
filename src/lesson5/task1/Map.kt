@@ -98,7 +98,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val res = mutableMapOf<Int, MutableList<String>>()
+    for ((key, values) in grades) {
+        if (res[values] == null) res[values] = mutableListOf(key)
+        else res[values]?.add(key)
+    }
+    return res
+}
 
 
 
@@ -173,6 +180,7 @@ TODO()
 }
 
 
+
 /**
  * Средняя (4 балла)
  *
@@ -245,7 +253,14 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val chars2 = mutableSetOf<Char>()
+    for (elem in chars) chars2.add(elem.lowercaseChar())
+    for (letter in word) {
+        if (letter.lowercaseChar() !in chars2) return false
+    }
+    return true
+}
 
 /**
  * Средняя (4 балла)

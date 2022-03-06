@@ -34,6 +34,11 @@ class Tests {
     @Test
     @Tag("4")
     fun dateStrToDigit() {
+        assertEquals("", dateStrToDigit("31 апреля 4 года"))
+        assertEquals("29.02.4115940", dateStrToDigit("29 февраля 4115940"))
+        assertEquals("", dateStrToDigit("\\\"\\\"\""))
+        assertEquals("", dateStrToDigit("29 февраля 6776100"))
+        assertEquals("", dateStrToDigit("29 февраля 1"))
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
@@ -41,11 +46,19 @@ class Tests {
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("", dateStrToDigit("32 сентября 2011"))
         assertEquals("", dateStrToDigit("29 февраля 1993"))
+        assertEquals("01.01.1", dateStrToDigit("01 января 1"))
     }
 
     @Test
     @Tag("4")
     fun dateDigitToStr() {
+        assertEquals("", dateDigitToStr("8"))
+        assertEquals("", dateDigitToStr("31.11.8862812"))
+        assertEquals("30 апреля 4", dateDigitToStr("30.04.4"))
+        assertEquals("29 февраля 4", dateDigitToStr("29.02.4"))
+        assertEquals("", dateDigitToStr("29.02.2344900"))
+        assertEquals("", dateDigitToStr("29.02.1"))
+        assertEquals("1 января 1", dateDigitToStr("01.01.1"))
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
@@ -98,6 +111,8 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - -2") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("44 - - 12") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - + 12") }
+        assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - 12 -") }
+        assertThrows(IllegalArgumentException::class.java) { plusMinus("") }
     }
 
     @Test

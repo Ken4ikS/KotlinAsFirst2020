@@ -69,6 +69,12 @@ Basic, Ruby, Swift.
             """.trimIndent()
         )
         File("temp.txt").delete()
+        deleteMarked("input/delete_in2.txt", "temp.txt")
+        assertFileContent(
+            "temp.txt",
+            """БАА
+БААААА""".trimIndent()
+        )
     }
 
     @Test
@@ -85,6 +91,10 @@ Basic, Ruby, Swift.
         assertEquals(
             mapOf("--" to 4, "ее" to 2, "животное" to 2, "." to 2),
             countSubstrings("input/substrings_in2.txt", listOf("--", "ее", "животное", "."))
+        )
+        assertEquals(
+            mapOf("рельсы" to 2, "22" to 3, "человек" to 1),
+            countSubstrings("input/substrings_in3.txt", listOf("рельсы", "22", "человек"))
         )
     }
 
@@ -155,6 +165,13 @@ Basic, Ruby, Swift.
 1)  Число  пробелов  между  каждыми  двумя  парами  соседних  слов  не  должно  отличаться  более,  чем  на 1.
 2)  Число  пробелов  между  более  левой  парой  соседних  слов  должно  быть  больше или равно числу пробелов
 между                более               правой               парой               соседних               слов."""
+        )
+        File("temp.txt").delete()
+        alignFileByWidth("input/width_in2.txt", "temp.txt")
+        assertFileContent(
+            "temp.txt",
+            """аяы - БАБ / АААБ, ГФШБПБ
+                |аяы:     АВБАЛБ    аааб:""".trimMargin()
         )
         File("temp.txt").delete()
 
